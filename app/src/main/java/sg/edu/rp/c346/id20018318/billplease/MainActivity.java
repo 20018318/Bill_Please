@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
         split.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if the input amt and pax are not empty
                 if (amount.getText().toString().trim().length() > 0 && numPax.getText().toString().trim().length() > 0) {
                     double newAmt = 0.0;
+                    //check if svs and gst toggle buttons are checked
                     if (!svs.isChecked() && !gst.isChecked()) {
                         newAmt = Double.parseDouble(amount.getText().toString());
                     } else if (svs.isChecked() && !gst.isChecked()) {
@@ -61,15 +63,19 @@ public class MainActivity extends AppCompatActivity {
                         newAmt = Double.parseDouble(amount.getText().toString()) * 1.17;
                     }
 
+                    //check if input discount is not empty
                     if (discount.getText().toString().trim().length() > 0) {
                         newAmt = newAmt * (1 -  (Double.parseDouble(discount.getText().toString()) / 100));
                     }
 
+                    //print total bill
                     totalBill.setText("Total Bill: $" + String.format("%.2f", newAmt));
 
+                    //check if input pax is more than 0
                     int newPax = Integer.parseInt(numPax.getText().toString());
                     if (newPax > 0) {
                         int checkedRadioId = rgPayment.getCheckedRadioButtonId();
+                        //check if cash or paynow radio button is checked and print the text respectively
                         if (checkedRadioId == R.id.radioButtonCash) {
                             eachPays.setText("Each Pays: $" + String.format("%.2f", newAmt / newPax) + " via Cash");
                         } else {
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                //if input amt or pax is empty, print error msg
                 } else {
                     errorMsg.setText("Please fill in all blanks.");
                 }
